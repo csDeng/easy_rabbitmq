@@ -1,0 +1,26 @@
+version: '3.0'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      TZ: Asia/Shanghai
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: 123456
+    volumes:
+      - mq_data:/var/lib/rabbitmq
+      - mq_conf:/etc/rabbitmq
+
+
+volumes:
+  mq_data: {}
+  mq_conf: {}
+
+
+networks:
+  default:
+    driver: bridge
