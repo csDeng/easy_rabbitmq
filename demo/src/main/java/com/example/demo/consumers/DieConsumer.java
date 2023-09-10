@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@RabbitListener(queues = "normal.queue")
+@RabbitListener(queues = "die.queue")
 @Slf4j
-public class Consumer {
+public class DieConsumer {
 
     @RabbitHandler
     public void handleMessage(String data, Message message, Channel channel) throws Exception {
@@ -21,12 +21,10 @@ public class Consumer {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         while (!success && retryCount-- > 0){
             try {
-                // 处理消息
-                log.info("收到消息: {}, deliveryTag = {}", data, deliveryTag);
-                // 正常处理完毕，手动确认，此处不确认让他进入死信队列
-//                success = true;
-//                channel.basicAck(deliveryTag, false);
-                Thread.sleep(3 * 1000L);
+                // 模拟兜底策略
+                log.info("死信队列消息处理，data=: {}, deliveryTag = {}", data, deliveryTag);
+                success = true;
+                channel.basicAck(deliveryTag, false);
             }catch (Exception e){
                 log.error("程序异常：{}", e.getMessage());
             }
@@ -34,14 +32,6 @@ public class Consumer {
         // 达到最大重试次数后仍然消费失败
         if(!success){
             try {
-                log.info("move to die queue");
-                // 手动拒绝，移至死信队列
-                /**
-                 *
-                 deliveryTag – the tag from the received AMQP.Basic.GetOk or AMQP.Basic.Deliver
-                 multiple – true to reject all messages up to and including the supplied delivery tag; false to reject just the supplied delivery tag.
-                 requeue – true if the rejected message(s) should be requeued rather than discarded/dead-lettered
-                 */
                 channel.basicNack(deliveryTag, false, false);
             } catch (IOException e) {
                 e.printStackTrace();
