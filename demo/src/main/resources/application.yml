@@ -1,0 +1,13 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    password: 123456
+    port: 5672
+    publisher-confirm-type: simple
+    publisher-returns: true
+    username: rabbit
+    listener:
+      type: direct
+      direct:
+        acknowledge-mode: manual
+
