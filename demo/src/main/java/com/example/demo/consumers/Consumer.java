@@ -17,7 +17,7 @@ import java.io.IOException;
 public class Consumer extends BaseConsumer<String> {
 
     @RabbitHandler
-    public void handleMessage(String data, Message message, Channel channel) {
+    public void handleMessage(String data, Message message, Channel channel) throws IOException {
         super.handleMessage(data, message, channel, d->{
             log.info("普通队列收到消息: {}, 但是拒绝让他进入死信队列.", data);
             return false;
