@@ -76,6 +76,8 @@ public class RabbitCof {
 
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 
+        rabbitTemplate.setMandatory(true);
+
 
         /**
          * 消费者确认收到消息后，手动ack回调处理

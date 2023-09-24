@@ -8,8 +8,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 @RabbitListener(queues = "die.queue")
 @Slf4j
@@ -19,6 +17,8 @@ public class DieConsumer extends BaseConsumer<String> {
     public void handleMessage(String data, Message message, Channel channel) throws Exception {
         super.handleMessage(data,message, channel, d->{
             log.info("死信队列收到消息: {}", d);
+            Thread.sleep(10000);
+            log.info("die end---");
             return true;
         });
     }
