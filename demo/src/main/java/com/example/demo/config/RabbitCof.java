@@ -43,6 +43,16 @@ public class RabbitCof {
         return BindingBuilder.bind(normalQueue).to(normalExchange).with(mqKeys.ROUTING_KEY).noargs();
     }
 
+    @Bean("dynamicQueue")
+    public Queue dynamicQueue() {
+        return new Queue(mqKeys.DYNAMIC_QUEUE, true, false, false);
+    }
+
+    @Bean("dynamicBind")
+    public Binding dynamicBinding(@Qualifier("dynamicQueue") Queue dynamicQueue,  @Qualifier("normalExchange") Exchange normalExchange) {
+        return BindingBuilder.bind(dynamicQueue).to(normalExchange).with(mqKeys.DYNAMIC_ROUTING_KEY).noargs();
+    }
+
     /**
      * 死信队列
      * @return

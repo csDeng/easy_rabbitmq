@@ -17,5 +17,7 @@ public class MqKeys {
 
     public final String DIE_ROUTING_KEY = "die.routingKey";
 
+    public final String DYNAMIC_QUEUE = "normal.dynamic";
+    public final String DYNAMIC_ROUTING_KEY = "dynamic.routingKey";
 
 }
