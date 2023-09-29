@@ -276,5 +276,9 @@ public class DieConsumer {
 
 * [rabbit 官网][Dead Letter Exchanges — RabbitMQ](https://www.rabbitmq.com/dlx.html)
 
-* [具体代码仓库](https://github.com/csDeng/die_queue)
+* [V1具体代码仓库](https://github.com/csDeng/easy_rabbitmq/tree/7bd37246a6d48666951ecad72c30c00978bbc50e)
+
+## 升级
+
+然后在rabbitmq中使用了死信队列作为兜底的情况下，如果为每一个消费类型绑定一个队列，可能会存在部分任务消费频率过低，从而导致连接空等，造成服务资源的极大浪费。升级采用“线程池+消息动态”尝试解决上述资源浪费的连接痛点。详情请看[V2](./README_V2.md)
 
